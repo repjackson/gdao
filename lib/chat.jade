@@ -46,9 +46,13 @@ body
     +home
 template(name='home')
     .ui.attached.menu
-        .item gchat
+        .item 
+            i.chat.icon
+            |gchat
         .right.menu 
-            .item profile
+            .item 
+                i.user.icon
+                |profile
     .ui.stackable.padded.grid 
         .sixteen.wide.column
             .ui.comments.scrolling
@@ -64,7 +68,6 @@ template(name='message_item')
         a.avatar 
             if _author.image_id
                 img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200 gravity='face' crop='fill'}}")
-
         .content
             a.author #{_author.username}
             .metadata 

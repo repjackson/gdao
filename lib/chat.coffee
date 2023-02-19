@@ -1,6 +1,9 @@
 @Docs = new Meteor.Collection 'docs'
 
 if Meteor.isClient 
+    $.cloudinary.config
+        cloud_name:"facet"
+    
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
 
@@ -15,12 +18,20 @@ if Meteor.isClient
                     Docs.insert 
                         model:'message'
                         body:val
+                val = $('.new_message').val('')
+                $('body').toast("#{val} message added")
+                
     Template.home.helpers
         message_docs: ->
             Docs.find 
                 model:'message'
     
 if Meteor.isServer
+    Cloudinary.config
+        cloud_name: 'facet'
+        api_key: Meteor.settings.cloudinary_key
+        api_secret: Meteor.settings.cloudinary_secret
+    
     Docs.allow
         insert: (userId, doc) -> 
             true    
