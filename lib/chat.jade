@@ -51,10 +51,27 @@ template(name='home')
             .item profile
     .ui.stackable.padded.grid 
         .sixteen.wide.column
-            .ui.header gchat
-            .ui.list 
+            .ui.comments.scrolling
                 each message_docs
-                    .item !{body}
+                    +message_item
             .ui.fluid.icon.input
                 i.plus.icon
-                input(type='text' placeholder='add message...')
+                input.new_message(type='text' placeholder='add message...')
+                
+                
+template(name='message_item')
+    .comment
+        a.avatar 
+            if _author.image_id
+                img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+
+        .content
+            a.author #{_author.username}
+            .metadata 
+                span.date #{_when}
+            .text 
+                !{body}
+            .actions 
+                a.reply reply
+                i.thumbs.up.icon 
+                i.thumbs.down.icon

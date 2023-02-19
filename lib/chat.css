@@ -12,3 +12,11 @@ body {
     /* background: #0e0e44 !important; */
     animation: 1s ease-out 0s 1 fadein;
 }
+.scrolling{
+  overflow-y:scroll;
+  overflow-x:hidden;
+  max-height:80vh;
+  /*max-height:85vh;*/
+  /* padding-top: 1em; */
+  /*padding: 1em;*/
+}
