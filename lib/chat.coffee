@@ -46,17 +46,19 @@ if Meteor.isClient
             
     Template.message_item.events
         'click .vote_up': ->
-            Docs.update @_id,
-                $inc:
-                    points:1
-                $addToSet:
-                    upvoter_ids:Meteor.userId()
+            Meteor.call 'upvote',@_id,->
+            # Docs.update @_id,
+            #     $inc:
+            #         points:1
+            #     $addToSet:
+            #         upvoter_ids:Meteor.userId()
         'click .vote_down': ->
-            Docs.update @_id,
-                $inc:
-                    points:-1
-                $addToSet:
-                    downvoter_ids:Meteor.userId()
+            Meteor.call 'downvote',@_id,->
+            # Docs.update @_id,
+            #     $inc:
+            #         points:-1
+            #     $addToSet:
+            #         downvoter_ids:Meteor.userId()
                     
     Template.home.events
         'hover .tada': (e,t)-> $(e.currentTarget).closest('.tada').transition('pulse', 500)
@@ -80,9 +82,12 @@ if Meteor.isClient
             # console.log @
             Docs.update @_id,
                 $inc: views: 1
-            
-            
-    Template.home.events
+        'click .logout': ->
+            Session.set('loading',true)
+            Meteor.logout(()->
+                Session.set('loading',false)
+                $('body').toast({message:"logged out", position:'bottom right'})
+                )
         'keyup .new_message': (e)->
             if e.which is 13
                 val = $('.new_message').val().trim()
@@ -91,12 +96,24 @@ if Meteor.isClient
                         model:'message'
                         body:val
                 val = $('.new_message').val('')
-                $('body').toast({message:"#{val} message added"})
+                $('body').toast({message:"#{val} message added", position:'bottom right'})
                 
     Template.home.helpers
+        is_loading: -> Session.get('loading')
         message_docs: ->
             Docs.find 
                 model:'message'
+    Template.message_item.helpers
+        upvote_class: ->
+            if @upvoter_ids and Meteor.userId() in @upvoter_ids
+                'green large'
+            else 
+                'outline'
+        downvote_class: ->
+            if @downvoter_ids and Meteor.userId() in @downvoter_ids
+                'red large'
+            else 
+                'outline'
     
 if Meteor.isServer
     Cloudinary.config

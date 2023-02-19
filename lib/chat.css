@@ -12,6 +12,11 @@ body {
     /* background: #0e0e44 !important; */
     animation: 1s ease-out 0s 1 fadein;
 }
+
+.inline { display:inline !important;}
+.button { 
+    border-radius: 10px !important;
+}
 .scrolling{
   overflow-y:scroll;
   overflow-x:hidden;

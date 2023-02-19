@@ -55,21 +55,29 @@ template(name='home')
         .item 
             i.chat.icon
             |gchat
+        if is_loading
+            .item 
+                i.loading.yin.yang.icon
+                |loading...
         .right.menu 
+            if currentUser
+                a.item.logout
+                    i.sign.out.icon
+                    |log out 
             .item 
                 i.user.icon
                 |profile
     .ui.stackable.padded.grid 
         .sixteen.wide.column
-            .ui.comments.scrolling
-                each message_docs
-                    +message_item
             if currentUser
-                .ui.fluid.icon.input
-                    i.plus.icon
-                    input.new_message(type='text' placeholder='add message...')
-            // unless currentUser 
-            +login
+                .ui.comments.scrolling
+                    each message_docs
+                        +message_item
+                    .ui.fluid.icon.input
+                        i.plus.icon
+                        input.new_message(type='text' placeholder='add message...')
+            unless currentUser 
+                +login
             
             
             
@@ -85,9 +93,10 @@ template(name='message_item')
             .text !{body}
             .actions 
                 a.reply reply
-                i.thumbs.up.link.icon.vote_up(class=vote_up_class)
-                i.thumbs.down.link.icon.vote_down(class=vote_down_class)
-
+                i.thumbs.up.link.icon.vote_up(class=upvote_class)
+                i.thumbs.down.link.icon.vote_down(class=downvote_class)
+                if points 
+                    |#{points}
 
 
 template(name='login')
@@ -115,7 +124,7 @@ template(name='login')
                 //- if username
                 //- if logging_in
                 .ui.hidden.divider
-                .ui.fluid.big.green.basic.button.enter.invert(title="login #{username}" class=enter_class)
+                .ui.fluid.big.green.button.enter.invert(title="login #{username}" class=enter_class)
                     +i name='internal' cl='ui mini inline image'
                     |login
                     strong #{username}
@@ -178,4 +187,4 @@ template(name='register')
                     
                     
 template(name='i')
-    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class='ui image' title=title)
+    img(src="https://img.icons8.com/office/48/000000/#{name}.png" class='ui inline image' title=title)
