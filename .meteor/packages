@@ -17,11 +17,8 @@ accounts-password@1.7.0
 
 lepozepo:cloudinary
 blaze-html-templates
-dburles:collection-helpers
 momentjs:moment
 matb33:collection-hooks
 mquandalle:jade
 underscore@1.0.10
 coffeescript
-ecmascript
-reactive-var
