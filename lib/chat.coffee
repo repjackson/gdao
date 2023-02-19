@@ -1,5 +1,38 @@
 @Docs = new Meteor.Collection 'docs'
 
+Docs.before.insert (userId, doc)->
+    if Meteor.userId()
+        doc._author_id = Meteor.userId()
+        doc._author_username = Meteor.user().username
+    timestamp = Date.now()
+    doc._timestamp = timestamp
+    doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+    date = moment(timestamp).format('Do')
+    weekdaynum = moment(timestamp).isoWeekday()
+    weekday = moment().isoWeekday(weekdaynum).format('dddd')
+
+    hour = moment(timestamp).format('h')
+    minute = moment(timestamp).format('m')
+    ap = moment(timestamp).format('a')
+    month = moment(timestamp).format('MMMM')
+    year = moment(timestamp).format('YYYY')
+
+    # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
+    date_array = [ap, weekday, month, date, year]
+    if _
+        date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
+        # date_array = _.each(date_array, (el)-> console.log(typeof el))
+        # console.log date_array
+        doc._timestamp_tags = date_array
+
+    # doc.app = 'nf'
+    # doc.points = 0
+    # doc.downvoters = []
+    # doc.upvoters = []
+    return
+
+
+
 if Meteor.isClient 
     $.cloudinary.config
         cloud_name:"facet"
@@ -58,7 +91,7 @@ if Meteor.isClient
                         model:'message'
                         body:val
                 val = $('.new_message').val('')
-                $('body').toast("#{val} message added")
+                $('body').toast({message:"#{val} message added"})
                 
     Template.home.helpers
         message_docs: ->

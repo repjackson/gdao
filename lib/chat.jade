@@ -47,6 +47,10 @@ body
     
     
 template(name='home')
+    // button.ui.button.a2hs
+    //     |Add to home screen
+
+    img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
     .ui.attached.menu
         .item 
             i.chat.icon
@@ -87,7 +91,6 @@ template(name='message_item')
 
 
 template(name='login')
-    img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
     .ui.padded.stackable.grid
         .centered.row
             .eight.wide.column
