@@ -45,7 +45,6 @@ head
 body 
     +home
     
-    
 template(name='home')
     // button.ui.button.a2hs
     //     |Add to home screen
@@ -53,7 +52,7 @@ template(name='home')
     img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
     .ui.attached.menu
         .item 
-            i.chat.icon
+            +i name='chat'
             |gchat
         if is_loading
             .item 
@@ -67,18 +66,25 @@ template(name='home')
             .item 
                 i.user.icon
                 |profile
-    .ui.stackable.padded.grid 
-        .sixteen.wide.column
-            if currentUser
-                .ui.comments.scrolling
-                    each message_docs
-                        +message_item
-                    .ui.fluid.icon.input
-                        i.plus.icon
-                        input.new_message(type='text' placeholder='add message...')
-            unless currentUser 
+    .ui.stackable.padded.centered.grid 
+        unless currentUser 
+            .eight.wide.column
                 +login
-            
+        else 
+            .three.column.row
+                .column
+                    .ui.header channels/orgs/dms
+                .column
+                    .ui.header #{message_docs.count} messages
+                    if currentUser
+                        .ui.comments.scrolling
+                            each message_docs
+                                +message_item
+                        .ui.fluid.icon.input
+                            i.plus.icon
+                            input.new_message(type='text' placeholder='add message...')
+                .column
+                    .ui.header detail view
             
             
 template(name='message_item')
