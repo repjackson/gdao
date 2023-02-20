@@ -86,7 +86,6 @@ template(name='home')
                 .column
                     .ui.header detail view
             
-            
 template(name='message_item')
     .comment
         a.avatar 
@@ -103,6 +102,36 @@ template(name='message_item')
                 i.thumbs.down.link.icon.vote_down(class=downvote_class)
                 if points 
                     |#{points}
+            .reply
+                a.avatar 
+                    if _author.image_id
+                        img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                .content
+                    a.author #{_author.username}
+                    .metadata 
+                        span.date #{_when}
+                    .text !{body}
+                    .actions 
+                        a.reply reply
+                        i.thumbs.up.link.icon.vote_up(class=upvote_class)
+                        i.thumbs.down.link.icon.vote_down(class=downvote_class)
+                        if points 
+                            |#{points}
+                    .reply
+                        a.avatar 
+                            if _author.image_id
+                                img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                        .content
+                            a.author #{_author.username}
+                            .metadata 
+                                span.date #{_when}
+                            .text !{body}
+                            .actions 
+                                a.reply reply
+                                i.thumbs.up.link.icon.vote_up(class=upvote_class)
+                                i.thumbs.down.link.icon.vote_down(class=downvote_class)
+                                if points 
+                                    |#{points}
 
 
 template(name='login')
